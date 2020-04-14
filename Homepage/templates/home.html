@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}S&SLecture Home{% endblock %}
+
+{% block content %}
+<div id="HomepageMainArea">
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="main">
+                <i class="fa fa-trophy"></i>
+                <h1>Popular</h1>
+                <hr>
+                <br>
+            </div>
+
+            {% include "noteCardTem.html" with noteObjList=popularNote only %}
+        </div>
+    </div>
+
+
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="main">
+                <i class="fa fa-trophy"></i>
+                <h1>Lastest</h1>
+                <hr>
+                <br>
+            </div>
+
+            {% include "noteCardTem.html" with noteObjList=latestNote only %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

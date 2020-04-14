@@ -1,0 +1,37 @@
+<div class="row">
+    {% for note in noteObjList %}
+    <div class="col-md-{{cardSize|default:'3'}}">
+        <div class="card mb-4 box-shadow">
+
+            <div class="view overlay">
+                <img class="card-img-top" src="{{ note.thumbnail.image.url }}" alt="Card image cap">
+            </div>
+
+            <div class="card-body">
+                <a class="text-dark btn" href="/{{ note.note.id }}">
+                    <h4 class="card-title" id="latestNote{{ forloop.counter }}">{{ note.note.title }}</h4>
+                </a>
+
+                <p style="transform: rotate(0);">
+                    <a class="subinfo__author stretched-link" href="/profile/{{ note.note.author }}">
+                        {% if note.note.author.profilePicture %}
+                        <img class="subinfo__author__img" alt="image not found"
+                            style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
+                            src="{{ note.note.author.profilePicture.url }}">
+                        {% else %}
+                        <img class="subinfo__author__img" alt="image not found"
+                            style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
+                            src="https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png">
+                        {% endif %}
+                        <span class="subinfo__author__name">{{ note.note.author }}</span>
+                    </a>
+                </p>
+
+                <p class="card-text">{{ note.note.userSaved.count }} Saves</p>
+
+
+            </div>
+        </div>
+    </div>
+    {% endfor%}
+</div>

@@ -1,0 +1,85 @@
+{% load static %}
+<html>
+
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <title>Sign Up</title>
+</head>
+
+<body>
+  <br><br><br><br><br><br><br><br><br>
+  <div class="container login-container">
+    <div class="row">
+      <div class="col-md-offset-5 col-md-6 text-center">
+        <div class="login-logo">
+          <img src='{% static "/Homepage/logo.png" %}' width="200" height="200" alt="">
+        </div>
+        <br><br>
+        <h2>Welcome to</h2>
+        <h2>Save & Share Lecture</h2>
+      </div>
+
+      <div class="col-md-offset-5 col-md-6 text-center">
+        <h2>Sign up</h2>
+
+        <div class="text-left">
+
+          <!-- Sign up Form -->
+          <form method="post">
+            {% csrf_token %}
+
+            <h5>Username :</h5>
+            <p><input type="text" class="form-control input-sm chat-input" name="username" maxlength="150"
+                aria-describedby="usernameHelp" required id="id_username"><small id="usernameHelp"
+                class="form-text text-muted">
+                Required. 150 characters or fewer. Letters, digits and @/./+/-/_only.</small></p>
+
+            <h5>Password :</h5>
+            <p><input type="password" class="form-control" name="password1" autocomplete="new-password"
+                aria-describedby="password1Help" required id="id_password1">
+              <small id="password1Help" class="form-text text-muted">
+                <ul style="align-items: left;">
+                  <li>Your password can’t be too similar to your other personal information.</li>
+                  <li>Your password must contain at least 8 characters.</li>
+                  <li>Your password can’t be a commonly used password.</li>
+                  <li>Your password can’t be entirely numeric.</li>
+                </ul>
+              </small></p>
+
+            <h5>Password confirmation :</h5>
+            <p><input type="password" class="form-control" name="password2" autocomplete="new-password"
+                aria-describedby="password2Help" required id="id_password2">
+              <small id="password2Help" class="form-text text-muted">
+                Enter the same password as before, for verification.
+              </small></p>
+        </div>
+        <p><input name="submit" class="btn btn-outline-primary" type="submit" class="fadeIn fourth" value="Sign up"></p>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!-- templates/base.html -->
+{% load static %}
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&effect=brick-sign">
+
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <title>{% block title %}S&SLecture{% endblock %}</title>
+</head>
+
+<body style="padding-top: 70px;">
+  <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #b7d5f1;">
+    <a class="navbar-brand" href="/">
+      <img src='{% static "/Homepage/logo.png" %}' width="45" height="45" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about" id="about">About</a>
+        </li>
+
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="/upload" id="navbar_upload">Upload</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/profile/{{user.username}}" id="navbar_username">{{ user.username }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/accounts/logout" id="navbar_logout">Logout</a>
+        </li>
+
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="/accounts/login" id="navbar_upload">Upload</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/accounts/login" id="navbar_login">Login</a>
+        </li>
+        {% endif %}
+
+      </ul>
+      <form action="/" class="form-inline my-2 my-lg-0">
+        <input name="word" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button name="button_search" class="btn btn-outline-primary" type="submit">Search</button>
+      </form>
+
+      <a class="nav-link" href="/help" id="help" text-align="navbar-right">
+        <svg class="bi bi-info-circle" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
+            clip-rule="evenodd" />
+          <path
+            d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z" />
+          <circle cx="8" cy="4.5" r="1" />
+        </svg>
+      </a>
+
+    </div>
+  </nav>
+
+
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% block content %}
+
+  {% endblock %}
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>

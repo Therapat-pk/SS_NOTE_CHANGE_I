@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% block title %}S&SLecture Help{% endblock %}
+
+{% block content %}
+
+<h2 style="text-align: center; padding-top: 50px;">S&S Lecture Supports</h2>
+
+<div id="accordion" style="width: 800px; padding-top: 20px; margin: auto;">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                <button class="btn btn-link " data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                    aria-controls="collapseOne">
+                    Sign up
+                </button>
+            </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                1. Go to Login page<br>
+                2. Click Sign up link<br>
+                3. Enter Username , Password and Confirm password<br>
+                4. Click Submit button<br>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="false" aria-controls="collapseTwo">
+                    Login
+                </button>
+            </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+                1. Go to Login page<br>
+                2. Enter Username and Password<br>
+                3. Click Login button<br>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
+                    aria-expanded="false" aria-controls="collapseThree">
+                    Upload
+                </button>
+            </h5>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+                1. Go to Upload page<br>
+                2. Select picture and fill in the blanks<br>
+                3. Click Submit button<br>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingFour">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour"
+                    aria-expanded="false" aria-controls="collapseFour">
+                    Change profile picture
+                </button>
+            </h5>
+        </div>
+        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+            <div class="card-body">
+                1. Go to Profile page<br>
+                2. Choose the picture you want to change<br>
+                3. Click Submit button<br>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingFive">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive"
+                    aria-expanded="false" aria-controls="collapseFive">
+                    Save Note
+                </button>
+            </h5>
+        </div>
+        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+            <div class="card-body">
+                1. Select the note you want to save<br>
+                2. Click Save Note button<br>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingSix">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix"
+                    aria-expanded="false" aria-controls="collapseSix">
+                    View Save note
+                </button>
+            </h5>
+        </div>
+        <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+            <div class="card-body">
+                1. Go to Profile page<br>
+                2. You will view the save note topic<br>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingSeven">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSeven"
+                    aria-expanded="false" aria-controls="collapseSeven">
+                    View your note
+                </button>
+            </h5>
+        </div>
+        <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
+            <div class="card-body">
+                1. Go to Profile page<br>
+                2. You will view the shared note topic<br>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingEight">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseEight"
+                    aria-expanded="false" aria-controls="collapseEight">
+                    Change Password
+                </button>
+            </h5>
+        </div>
+        <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
+            <div class="card-body">
+                1. Go to Profile page<br>
+                2. Click Change Password button<br>
+                3. Enter the old password, New password and Confirm password<br>
+                4. Click Submit button<br>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingNine">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseNine"
+                    aria-expanded="false" aria-controls="collapseNine">
+                    Search the note
+                </button>
+            </h5>
+        </div>
+        <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion">
+            <div class="card-body">
+                1. Fill in about a note that you want to search to searchbox<br>
+                2. Click Search button<br>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingTen">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTen"
+                    aria-expanded="false" aria-controls="collapseTen">
+                    View a note
+                </button>
+            </h5>
+        </div>
+        <div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="#accordion">
+            <div class="card-body">
+                1. Choose a note that interests you<br>
+                2. Click previous/next buttons for details<br>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

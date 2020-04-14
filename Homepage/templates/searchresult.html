@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}S&SLecture Home{% endblock %}
+
+{% block content %}
+<div id="SearchResultPageMainArea">
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="main">
+                <i class="fa fa-trophy"></i>
+                <h1>Search Result</h1>
+                <hr>
+                Found {{ noteWithThumbnail|length }} matches within titie or description
+                <br>
+            </div>
+
+            {% include "noteCardTem.html" with noteObjList=noteWithThumbnail only %}
+        </div>
+    </div>
+</div>
+{% endblock %}

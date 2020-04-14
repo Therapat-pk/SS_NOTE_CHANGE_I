@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}S&SLecture Profile{% endblock %}
+
+{% block content %}
+<div class="container-fulid">
+    <div class="row justify-content-center">
+        <div class="col-md-2" style="padding-top: 2%;">
+
+            {% if profile.profilePicture %}
+            <img name="img_profile"style=" width: 150px; height: 150px; border-radius: 50%;display: block;
+            margin: 0 auto;" src="{{profile.profilePicture.url}}">
+
+            {% else %}
+            <img style=" width: 150px; height: 150px; border-radius: 50%;display: block;
+            margin: 0 auto;" src="https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png">
+            
+            {% endif %}
+            
+            <br>
+            <div class="text-center">
+                <h1>{{ profile.user.username }}</h1>
+                <br>
+
+                {% if user.username == profile.user.username%}
+                <form method="post" enctype="multipart/form-data" id="profilePictureForm">
+                    {% csrf_token %}
+
+                    <div class="file btn btn-md btn-primary" style="position: relative;overflow: hidden;">
+                        Select profile picture
+                        <input type="file" name="profilePicture" accept="image/*" id="id_profilePicture"
+                            style="position: absolute;font-size: 50px;opacity: 0;right: 0;top: 0;">
+                    </div>
+                    
+                    <div class="nav-item">
+                        <a class="nav-link" href="/change-password" id="navbar_change-password">Change Password</a>
+                    </div>
+                    
+                </form>
+                {% endif %}
+
+                <p>Saved {{ savedNote|length }} Notes</p>
+                <p>Shared {{ myNote|length }} Notes</p>
+                <p>Total {{ saves }} Note saves</p>
+            </div>
+        </div>
+
+
+        <div class="col-md-5" style="padding-left: 2%;padding-top: 2%;">
+            <div>
+                <h2>Shared Notes</h2>
+                {% include "noteCardTem.html" with noteObjList=myNote cardSize=6 %}
+            </div>
+        </div>
+
+
+        <div class="col-md-5" style="padding-left: 2%;padding-top: 2%;">
+            <div>
+                <h2>Saved Notes</h2>
+                {% include "noteCardTem.html" with noteObjList=savedNote cardSize=6 %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("id_profilePicture").onchange = function () {
+        document.getElementById("profilePictureForm").submit();
+    };
+</script>
+
+{% endblock %}
