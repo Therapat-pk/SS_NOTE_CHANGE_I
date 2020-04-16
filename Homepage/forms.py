@@ -14,5 +14,5 @@ class LectureForms(ModelForm):
 
 class Lecture_imgForms(ModelForm):
       class Meta:
-         model = Lecture_img
+         model = Lecture_image
          fields = ['image']

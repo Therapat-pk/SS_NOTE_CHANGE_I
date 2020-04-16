@@ -20,11 +20,11 @@ class Migration(migrations.Migration):
             name='image',
         ),
         migrations.CreateModel(
-            name='Lecture_img',
+            name='Lecture_image',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('image', models.ImageField(blank=True, upload_to='lecture_image')),
-                ('LectureKey', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='Homepage.Lecture')),
+                ('lectureKey', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='Homepage.Lecture')),
             ],
         ),
     ]

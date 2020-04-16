@@ -79,7 +79,7 @@ class HomePageTest(TestCase):
         self.client.post('/accounts/login/', {'username':'Timmy','password':"2542" } ) 
         self.client.post('/upload/', {'title':'tim','description':"555" ,'image':SimpleUploadedFile('666.png', content=open(localtion+'/red.png', 'rb').read())} ) 
         CountLec=Lecture.objects.count()
-        Count_object=Lecture_img.objects.count()
+        Count_object=Lecture_image.objects.count()
 
         self.assertEqual(CountLec,1)
         self.assertEqual(Count_object,1)
@@ -94,7 +94,7 @@ class HomePageTest(TestCase):
         self.client.post('/accounts/login/', {'username':'tim','password':"pass" } ) 
         self.client.post('/upload/', {'submitbutton':'Submit','title':'tim','description':"555" ,'image':{SimpleUploadedFile('666_1.png', content=open(localtion+'/red.png', 'rb').read()),SimpleUploadedFile('666_1.png', content=open(localtion+'/red.png', 'rb').read())}} )
         self.assertEqual(Lecture.objects.count(),1)
-        self.assertEqual(Lecture_img.objects.count(),2)
+        self.assertEqual(Lecture_image.objects.count(),2)
 
     
     def test_saves_Lecture(self):
@@ -121,7 +121,7 @@ class HomePageTest(TestCase):
         creator = User.objects.create_user(username = 'tim01',password = 'pass')
         creatorProfile = Profile.objects.create(user = creator)
         noteObj = Lecture.objects.create(title = 'test', description = 'test',author = creatorProfile)
-        noteObj_Img=Lecture_img.objects.create(LectureKey=noteObj,image=SimpleUploadedFile('666_1.png', content=open(BASE_DIR+'/red.png', 'rb').read()))
+        noteObj_Img=Lecture_image.objects.create(lectureKey=noteObj,image=SimpleUploadedFile('666_1.png', content=open(BASE_DIR+'/red.png', 'rb').read()))
         response = self.client.get('/',{'word':'test'})
         y=response.content.decode()
 

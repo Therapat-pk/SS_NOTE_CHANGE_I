@@ -1,6 +1,6 @@
 from django.test import LiveServerTestCase
 from django.contrib.auth.models import AnonymousUser, User
-from Homepage.models import Lecture, Profile, Lecture_img
+from Homepage.models import Lecture, Profile, Lecture_image
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException

@@ -6,3 +6,5 @@ geckodriver.log
 virtualenv
 geckodriver.exe
 media
+SS_NOTE_I
+.vscode 

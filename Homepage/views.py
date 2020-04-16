@@ -4,7 +4,7 @@ from django.contrib.auth import logout, authenticate, login , update_session_aut
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from .forms import *
-from .models import Lecture,Profile,Lecture_img
+from .models import Lecture,Profile,Lecture_image
 from django.forms import modelformset_factory
 from django.http import Http404
 from django.db.models import Count
@@ -37,14 +37,14 @@ def home(request):
         keyword = request.GET.get('word').lower()
         for note in Lecture.objects.all():
             if keyword in note.title.lower() or keyword in note.description.lower():
-                noteWithThumbnail.append(NoteWithThumbnail(note, note.Lecture_img.all()[0]))
+                noteWithThumbnail.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
         return render(request, 'searchresult.html',{'noteWithThumbnail':noteWithThumbnail})
     else:
         for note in Lecture.objects.all().order_by('-id')[:8][::-1]:
-            latestNote.append(NoteWithThumbnail(note, note.Lecture_img.all()[0]))
+            latestNote.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
         
         for note in Lecture.objects.annotate(count=Count('userSaved')).order_by('count')[:8][::-1]:
-            popularNote.append(NoteWithThumbnail(note, note.Lecture_img.all()[0]))
+            popularNote.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
 
         return render(request, 'home.html',{'latestNote':latestNote, 'popularNote':popularNote})
 
@@ -52,7 +52,7 @@ def upload(request):
     if Profile.objects.filter(user=request.user):
         files=[]
         profileObj = Profile.objects.get(user=request.user)
-        #ImageFormSet=modelformset_factory(Lecture_img,form=Lecture_imgForms, extra=1)
+        #ImageFormSet=modelformset_factory(Lecture_image,form=Lecture_imgForms, extra=1)
         if request.method == 'POST':
             
                 #for file in request.FILES:
@@ -66,7 +66,7 @@ def upload(request):
                 LectureForm.save()
 
                 for i in request.FILES.getlist('image'):
-                    photo = Lecture_img.objects.create(LectureKey=LectureForm , image=i)
+                    photo = Lecture_image.objects.create(lectureKey=LectureForm , image=i)
                     photo.save()
 
                 # redirect to homepage
@@ -110,7 +110,7 @@ def lecture(request,lecture_id):
         return HttpResponseRedirect("/" + request.POST.get('noteID'))
     else:
         noteObj = Lecture.objects.get(id = lecture_id)
-        imageObjList = noteObj.Lecture_img.all()
+        imageObjList = noteObj.Lecture_image.all()
         return render(request, 'notedetail.html',{'noteObj': noteObj, "imageObjList": imageObjList})
 
 def profile(request, username):
@@ -129,11 +129,11 @@ def profile(request, username):
         savedNote = []
         saves = 0
         for note in profileObj.author.all():
-            myNote.append(NoteWithThumbnail(note, note.Lecture_img.all()[0]))
+            myNote.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
             saves += note.userSaved.count()
         for note in Lecture.objects.all():
             if profileObj in note.userSaved.all():
-                savedNote.append(NoteWithThumbnail(note, note.Lecture_img.all()[0]))
+                savedNote.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
     return render(request,'profile.html',{'form': form, 'profile': profileObj, 'myNote': myNote, 'savedNote':savedNote, 'saves':saves})
 
 '''List_object_Lecture=[]
@@ -162,7 +162,7 @@ def upload(request):
                     Lec.author=Profile_filter[0]
                     Saveimg=Lecture_imgForms_upload.save()
                     List_object_image_value_dirt.append(Saveimg)
-                    #Saveimg.LectureKey=Lec
+                    #Saveimg.lectureKey=Lec
                     #List_object_image.update({title_name:List_object_image_value_dirt.append(Saveimg)})
 
                 else:
@@ -170,7 +170,7 @@ def upload(request):
                     Lec.author=Profile_filter[0]
                     List_object_Lecture.append(Lec)
                     Saveimg=Lecture_imgForms_upload.save()
-                    #Saveimg.LectureKey=Lec
+                    #Saveimg.lectureKey=Lec
                     List_object_image_value_dirt.append(Saveimg)
                 List_name_img.append(Lecture_imgForms_upload.cleaned_data.get("image").name)
                 List_object_image.update({title_name:List_object_image_value_dirt})
@@ -191,18 +191,18 @@ def upload(request):
                                     if P == title_name:
                                         L=List_object_image[P]
                                         for M in L:
-                                            M.LectureKey=i
+                                            M.lectureKey=i
                                             M.save()
                                 List_object_image.pop(title_name)
                             List_object_Lecture.remove(i)
                 
             Obj_Lec=Lecture.objects.filter(title=LectureForms_upload_1.cleaned_data.get('title'))
-            Img_obj=Lecture_img.objects.all().filter(LectureKey=Obj_Lec[0])
+            Img_obj=Lecture_image.objects.all().filter(lectureKey=Obj_Lec[0])
             List_object_Lecture.clear()
             List_object_image.clear()
             List_object_image_value_dirt.clear() 
             List_name_img.clear()
-            return render(request, 'lecture.html',{"Lecture_img":Img_obj, 'Lecture':LectureForms_upload_1 })
+            return render(request, 'lecture.html',{"Lecture_image":Img_obj, 'Lecture':LectureForms_upload_1 })
         else:
             Lecture_imgForms1=Lecture_imgForms()
             LectureForms1=LectureForms()

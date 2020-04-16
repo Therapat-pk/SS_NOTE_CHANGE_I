@@ -12,8 +12,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='lecture_img',
-            name='LectureKey',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='Lecture_img', to='Homepage.Lecture'),
+            model_name='Lecture_image',
+            name='lectureKey',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='Lecture_image', to='Homepage.Lecture'),
         ),
     ]
