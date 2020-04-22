@@ -116,7 +116,7 @@ class NewVisitorTest(LiveServerTestCase):
             self.wait_for_page_to_render_text_in_id('','HomepageMainArea')
             # She looking for a computer networking's note
             # She use a search bar to make it quicker
-            search_textbox = self.browser.find_element_by_name('word')
+            search_textbox = self.browser.find_element_by_name('keyword_search')
             search_textbox.send_keys('Network')
             #ime.sleep(5)
             search_button=self.browser.find_element_by_name('button_search')
@@ -159,7 +159,7 @@ class NewVisitorTest(LiveServerTestCase):
             # The site redirect to homepage
             self.wait_for_page_to_render_text_in_id('','HomepageMainArea')
             # She search for that note again and click on it
-            search_textbox = self.browser.find_element_by_name('word')
+            search_textbox = self.browser.find_element_by_name('keyword_search')
             search_textbox.send_keys('Network')
             #ime.sleep(5)
             search_button=self.browser.find_element_by_name('button_search')

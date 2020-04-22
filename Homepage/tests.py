@@ -122,7 +122,7 @@ class HomePageTest(TestCase):
         creatorProfile = Profile.objects.create(user = creator)
         noteObj = Lecture.objects.create(title = 'test', description = 'test',author = creatorProfile)
         noteObj_Img=Lecture_image.objects.create(lecturekey=noteObj,image=SimpleUploadedFile('666_1.png', content=open(BASE_DIR+'/red.png', 'rb').read()))
-        response = self.client.get('/',{'word':'test'})
+        response = self.client.get('/',{'keyword_search':'test'})
         y=response.content.decode()
 
         self.assertEqual(response.status_code,200)
