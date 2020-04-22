@@ -182,7 +182,7 @@ class NewVisitorTest(LiveServerTestCase):
             
             # She realize she doesn't have a profile picture yet.
             # Just for fancy, She click the button to upload a profile picture
-            profile_pic = self.browser.find_element_by_name("profilePicture")
+            profile_pic = self.browser.find_element_by_name("profile_picture")
             profile_pic.send_keys(os.path.abspath("red.png"))
             time.sleep(2)
             # The page refreshes again and her profile picture showed up

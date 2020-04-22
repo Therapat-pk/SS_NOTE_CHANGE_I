@@ -61,8 +61,8 @@ class HomePageTest(TestCase):
         localtion=BASE_DIR
         Tim=User.objects.create_user(username='Timmy',password='2542')
         ProfileTim=Profile.objects.create(user=Tim)
-        response = c.post('/profile/'+str(ProfileTim)+'/', {'profilePicture':SimpleUploadedFile('666.png', content=open(localtion+'/red.png', 'rb').read())} ) 
-        Count_object=Profile.objects.filter(id=1)[0].profilePicture 
+        response = c.post('/profile/'+str(ProfileTim)+'/', {'profile_picture':SimpleUploadedFile('666.png', content=open(localtion+'/red.png', 'rb').read())} ) 
+        Count_object=Profile.objects.filter(id=1)[0].profile_picture 
 
         self.assertNotEquals(Count_object,"<ImageFieldFile: None>")
 
@@ -108,20 +108,20 @@ class HomePageTest(TestCase):
         userBProfile = Profile.objects.create(user = userB)
         noteObj = Lecture.objects.create(title = 'test', description = 'test',author = creatorProfile)
         
-        useA=noteObj.userSaved.add(userAProfile)
+        useA=noteObj.user_saved.add(userAProfile)
         
-        self.assertEqual(noteObj.userSaved.count(),1)
-        self.assertIn(userAProfile,Lecture.objects.all()[0].userSaved.all())
-        useB=noteObj.userSaved.add(userBProfile)
+        self.assertEqual(noteObj.user_saved.count(),1)
+        self.assertIn(userAProfile,Lecture.objects.all()[0].user_saved.all())
+        useB=noteObj.user_saved.add(userBProfile)
         
-        self.assertEqual(noteObj.userSaved.count(),2)
-        self.assertIn(userBProfile,Lecture.objects.all()[0].userSaved.all())
+        self.assertEqual(noteObj.user_saved.count(),2)
+        self.assertIn(userBProfile,Lecture.objects.all()[0].user_saved.all())
 
     def test_search_Lecture(self):
         creator = User.objects.create_user(username = 'tim01',password = 'pass')
         creatorProfile = Profile.objects.create(user = creator)
         noteObj = Lecture.objects.create(title = 'test', description = 'test',author = creatorProfile)
-        noteObj_Img=Lecture_image.objects.create(lectureKey=noteObj,image=SimpleUploadedFile('666_1.png', content=open(BASE_DIR+'/red.png', 'rb').read()))
+        noteObj_Img=Lecture_image.objects.create(lecturekey=noteObj,image=SimpleUploadedFile('666_1.png', content=open(BASE_DIR+'/red.png', 'rb').read()))
         response = self.client.get('/',{'word':'test'})
         y=response.content.decode()
 

@@ -5,7 +5,7 @@ from .models import *
 class Profileform(ModelForm):
      class Meta:
         model = Profile
-        fields = ['profilePicture']
+        fields = ['profile_picture']
 
 class LectureForms(ModelForm):
    class Meta:

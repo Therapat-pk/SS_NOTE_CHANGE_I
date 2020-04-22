@@ -14,10 +14,10 @@
 
                 <p style="transform: rotate(0);">
                     <a class="subinfo__author stretched-link" href="/profile/{{ note.note.author }}">
-                        {% if note.note.author.profilePicture %}
+                        {% if note.note.author.profile_picture %}
                         <img class="subinfo__author__img" alt="image not found"
                             style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
-                            src="{{ note.note.author.profilePicture.url }}">
+                            src="{{ note.note.author.profile_picture.url }}">
                         {% else %}
                         <img class="subinfo__author__img" alt="image not found"
                             style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
@@ -27,7 +27,7 @@
                     </a>
                 </p>
 
-                <p class="card-text">{{ note.note.userSaved.count }} Saves</p>
+                <p class="card-text">{{ note.note.user_saved.count }} Saves</p>
 
 
             </div>

@@ -7,9 +7,9 @@
     <div class="row justify-content-center">
         <div class="col-md-2" style="padding-top: 2%;">
 
-            {% if profile.profilePicture %}
+            {% if profile.profile_picture %}
             <img name="img_profile"style=" width: 150px; height: 150px; border-radius: 50%;display: block;
-            margin: 0 auto;" src="{{profile.profilePicture.url}}">
+            margin: 0 auto;" src="{{profile.profile_picture.url}}">
 
             {% else %}
             <img style=" width: 150px; height: 150px; border-radius: 50%;display: block;
@@ -28,7 +28,7 @@
 
                     <div class="file btn btn-md btn-primary" style="position: relative;overflow: hidden;">
                         Select profile picture
-                        <input type="file" name="profilePicture" accept="image/*" id="id_profilePicture"
+                        <input type="file" name="profile_picture" accept="image/*" id="id_profilePicture"
                             style="position: absolute;font-size: 50px;opacity: 0;right: 0;top: 0;">
                     </div>
                     

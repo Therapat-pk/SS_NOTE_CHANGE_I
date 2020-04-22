@@ -13,8 +13,8 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='lecture',
-            name='userSaved',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='userSaved', to='Homepage.Profile'),
+            name='user_saved',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='user_saved', to='Homepage.Profile'),
         ),
         migrations.AlterField(
             model_name='lecture',

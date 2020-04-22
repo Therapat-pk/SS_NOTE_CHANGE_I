@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.RenameField(
             model_name='profile',
             old_name='Profile_img',
-            new_name='profilePicture',
+            new_name='profile_picture',
         ),
         migrations.AddField(
             model_name='profile',

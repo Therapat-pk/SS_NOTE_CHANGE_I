@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name='Lecture_image',
-            name='lectureKey',
+            name='lecturekey',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='Lecture_image', to='Homepage.Lecture'),
         ),
     ]

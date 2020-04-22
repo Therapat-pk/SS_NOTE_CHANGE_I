@@ -12,11 +12,11 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RemoveField(
             model_name='lecture',
-            name='userSaved',
+            name='user_saved',
         ),
         migrations.AddField(
             model_name='lecture',
-            name='userSaved',
+            name='user_saved',
             field=models.ManyToManyField(to='Homepage.Profile'),
         ),
     ]
