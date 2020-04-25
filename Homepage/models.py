@@ -39,7 +39,7 @@ class Lecture(models.Model): #It is collect a content of note
 
     #user_saved 
     #Ex Time(user 1) and Ace(user 2) are save C++ note and python note 
-    #   user_saved(C++ note)have 2 Profile(Time and Ace) and Profile(Tim)have 2 user_saved(C++ note and python note)
+    #   user_saved(C++ note)have 2 Profile(Time and Ace) and Profile(Time)have 2 user_saved(C++ note and python note)
     # !!!When use Check about Save() !!!
     #There are many objects created. May be confused in order and adding models later.
     #Ex I create One Lecture ,I'am save() or save(commit=False) to create a Lecture_image but don't save() again 

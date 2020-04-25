@@ -1,11 +1,12 @@
+import time
+import os
 from django.test import LiveServerTestCase
 from django.contrib.auth.models import AnonymousUser, User
 from Homepage.models import Lecture, Profile, Lecture_image
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
-import time
-import os
+
 class NewVisitorTest(LiveServerTestCase):  
     MAX_WAIT = 15  
 
@@ -18,16 +19,27 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.quit()
 
     def wait_for_page_to_render_text_in_id(self, text, targetID):
-        start_time = time.time()
-        while True:  
-            try:
-                tag = self.browser.find_element_by_id(targetID)
-                self.assertIn(text, tag.text)
+        #Start count time
+        start_time = time.time() 
+        while True:
+            #If process in try Error it will continue to except    
+            try:    
+                #find element by id. Ex <div id="HomepageMainArea"></div> this element
+                tag = self.browser.find_element_by_id(targetID)     
+                #Check text(input in function) in text in tag(element)?
+                self.assertIn(text, tag.text)    
+                #As if closing the loop
                 return  
-            except (AssertionError, WebDriverException) as e:  
-                if time.time() - start_time > self.MAX_WAIT:  
+            
+            #our turn if process in try Error
+            except (AssertionError, WebDriverException) as e:   
+                #if time now - time start over 15 second
+                if time.time() - start_time > self.MAX_WAIT:    
+                    #Show that AssertionError
                     raise e  
+                #wait 0.5 second before re-start this loop again
                 time.sleep(0.5)
+        #It can use to just wait that element is Appear but don't check a text, Ex wait_for_page_to_render_text_in_id("","......") ,The empty text(mean "" ) is in every text
 
     def test_Steve_uploading_a_note(self):
         # Steve's friends invite Steve visit their new lecture sharing site named Save&Share lecture
@@ -39,18 +51,21 @@ class NewVisitorTest(LiveServerTestCase):
         # He was take note of all the lecture and dicide to share it online
         # He is visiting his friend's lecture sharing site
         # He entering the site URL in his browser
+        ## live_server_url it launches a live Django server in the background
         self.browser.get(self.live_server_url)
 
         # He notices the homepage has pop up
         self.wait_for_page_to_render_text_in_id('','HomepageMainArea')
         
         # He's looking for a login button and click it
+        ## navbar is a main menu on web
         self.assertIn('navbar_login',self.browser.page_source)
         login_button = self.browser.find_element_by_id('navbar_login')
+        
         login_button.send_keys(Keys.ENTER) 
 
         # He notice page have redirect to a login form
-        self.wait_for_page_to_render_text_in_id('','id_username')
+        self.wait_for_page_to_render_text_in_id('','id_username') 
 
         # He's entering a username and password that given by his friend and click login
         username = self.browser.find_element_by_id('id_username')
@@ -77,6 +92,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.wait_for_page_to_render_text_in_id('','UploadpageMainArea')
 
         # He start adding photo of the lecture to the given form
+        ##os.path.abspath("red.png") is path a localtion, Ex /SS_NOTE_CHANGE_I/red.png, Current working is BASE_DIR in setting 
         absolute_file_path = os.path.abspath("red.png")
         file_input = self.browser.find_element_by_id("id_image")
         file_input.send_keys(absolute_file_path)
@@ -95,7 +111,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.wait_for_page_to_render_text_in_id('','HomepageMainArea')
 
         # He found his lecture showing up
-        self.wait_for_page_to_render_text_in_id(noteTitle,'latestNote1')
+        self.wait_for_page_to_render_text_in_id(noteTitle,'latest_note1')
 
         # He click logout
         self.assertIn('navbar_logout', self.browser.page_source)
@@ -123,7 +139,7 @@ class NewVisitorTest(LiveServerTestCase):
             search_button.send_keys(Keys.ENTER)
             time.sleep(2)
             # She found it!
-            self.wait_for_page_to_render_text_in_id('Networking fundamental','latestNote1')
+            self.wait_for_page_to_render_text_in_id('Networking fundamental','latest_note1')
             # She click on the note to view the note's detail
             Click_note=self.browser.find_element_by_link_text('Networking fundamental')
             Click_note.send_keys(Keys.ENTER)
@@ -178,7 +194,7 @@ class NewVisitorTest(LiveServerTestCase):
             time.sleep(2)
             # The site redirect to profile page
             # She found that note show up in saved note's column
-            self.wait_for_page_to_render_text_in_id('Networking fundamental','latestNote1')
+            self.wait_for_page_to_render_text_in_id('Networking fundamental','latest_note1')
             
             # She realize she doesn't have a profile picture yet.
             # Just for fancy, She click the button to upload a profile picture
