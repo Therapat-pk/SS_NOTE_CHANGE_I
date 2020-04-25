@@ -112,7 +112,7 @@ def help(request):
 
 def lecture(request, lecture_id):
     #it use to save note
-    if request.method == 'POST':
+    if (request.method == 'POST' and "noteID" in request.POST):
         profile_obj = Profile.objects.get(user=request.user)
         note_obj = Lecture.objects.get(id=int(request.POST.get('noteID')))
         #Check if user have saved it.
@@ -123,7 +123,21 @@ def lecture(request, lecture_id):
     else:
         note_obj = Lecture.objects.get(id=lecture_id)
         image_obj_list = note_obj.Lecture_image.all()
-        return render(request, 'notedetail.html', {'note_obj': note_obj, "image_obj_list": image_obj_list})
+        #confirm is a varible,It use to consider that now is in delete_note form or confirm_delete_note form
+        #confirm = False meaning now is in delete_note form
+        confirm = False
+        #"delete_note" is a name in botton
+        if (request.method == 'POST' and "delete_note" in request.POST):
+            #confirm = True meaning now is in confirm_delete_note form
+            confirm = True
+        #"confirm_delete_note" is a name in botton
+        elif (request.method == 'POST' and "confirm_delete_note" in request.POST):
+            #Delete all Lecture_imge of Lecture object
+            image_obj_list.delete()
+            #Delete this one Lecture object 
+            note_obj.delete()
+            return redirect('/')
+        return render(request, 'notedetail.html', {'note_obj': note_obj, "image_obj_list": image_obj_list ,"confirm":confirm})
 
 def profile(request, username):
     user_obj = User.objects.get(username=username)

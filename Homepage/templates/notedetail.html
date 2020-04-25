@@ -44,6 +44,22 @@
                     <button type="summit" class="btn" name="noteID" value="{{ note_obj.id }}"><i class="fa fa-heart"></i>
                         Save Note</button>
                 </form>
+                {% else %}
+                    {% if confirm == False %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="summit" class="warning" style="background-color: red;" " name="delete_note" >Delete note</button>
+
+                    </form>
+                    {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <p style="font-size: 20 ;" >Are you sure to delete ?</p>
+                        <button type="summit" class="warning" " name="confirm_delete_note" >Yes</button>
+                        <button type="summit" class="warning" " name="not_confirm_delete_note" >No</button>
+
+                    </form>
+                    {% endif %}
                 {% endif %}
                 {% else %}
                 <a href="/accounts/login">please login to save notes</a>
@@ -141,10 +157,31 @@
         /* Mouse pointer on hover */
     }
 
+    .warning{
+        background-color: DodgerBlue;
+        /* Blue background */
+        border: none;
+        /* Remove borders */
+        color: white;
+        /* White text */
+        padding: 12px 16px;
+        /* Some padding */
+        font-size: 16px;
+        /* Set a font size */
+        cursor: pointer;
+        /* Mouse pointer on hover */
+
+    }
+    .warning:hover{
+        background-color: red
+
+    }
+
     /* Darker background on mouse-over */
     .btn:hover {
         background-color: RoyalBlue;
     }
+
 </style>
 
 

@@ -208,6 +208,69 @@ class NewVisitorTest(LiveServerTestCase):
             self.browser.find_element_by_id('navbar_logout').send_keys(Keys.ENTER)
             self.wait_for_page_to_render_text_in_id('','HomepageMainArea')
 
+    def test_Steve_delete_a_note(self):
+        ##It use to create note by Steve before we will start test
+        self.test_Steve_uploading_a_note()
+        time.sleep(1)
+
+        #Steve will go back to his note
+        #He want to delete a note 
+        #He entering the site url in her browser
+        self.browser.get(self.live_server_url)
+
+        #He login again 
+        self.assertIn('navbar_login',self.browser.page_source)
+        login_button = self.browser.find_element_by_id('navbar_login')
+        login_button.send_keys(Keys.ENTER)
+
+        # He notice page have redirect to a login form
+        self.wait_for_page_to_render_text_in_id('','id_username') 
+
+        # He's entering a username and password again and click login
+        username = self.browser.find_element_by_id('id_username')
+        username.send_keys('steve')
+        password = self.browser.find_element_by_id('id_password')  
+        password.send_keys('123456')    
+        password.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #He going to his profile
+        self.assertIn('navbar_username',self.browser.page_source)
+        profile_enter=self.browser.find_element_by_id('navbar_username')
+        profile_enter.send_keys(Keys.ENTER)
+        time.sleep(1)
+ 
+        #He continue to a detail note
+        click_note=self.browser.find_element_by_link_text('Networking fundamental')
+        click_note.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #He see a Delete note botton and click a botton Delete note
+        self.assertIn('delete_note',self.browser.page_source)
+        click_delete_note=self.browser.find_element_by_name('delete_note')
+        click_delete_note.send_keys(Keys.ENTER)
+        time.sleep(1)
+        #He looking for confirm text and click Yes
+        self.assertIn('Are you sure to delete ?',self.browser.page_source)
+        self.assertIn('confirm_delete_note',self.browser.page_source)
+        confirm_click=self.browser.find_element_by_name('confirm_delete_note')
+        confirm_click.send_keys(Keys.ENTER)
+
+        #This page redirect to homepage
+        self.wait_for_page_to_render_text_in_id('','HomepageMainArea')
+
+        #He going to profile again 
+        self.assertIn('navbar_username',self.browser.page_source)
+        profile_enter=self.browser.find_element_by_id('navbar_username')
+        profile_enter.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #He couldn't find that note anymore.
+        self.assertNotIn('Networking fundamental',self.browser.page_source)
+        
+        
+        
+
     
     
 
