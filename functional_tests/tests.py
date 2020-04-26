@@ -186,7 +186,7 @@ class NewVisitorTest(LiveServerTestCase):
             Click_note.send_keys(Keys.ENTER)
             time.sleep(2)
             # She click save note button
-            Click_savenote=self.browser.find_element_by_name('noteID')
+            Click_savenote=self.browser.find_element_by_name('save_note')
             Click_savenote.send_keys(Keys.ENTER)
             # She navigate to profile page
             Click_Profile=self.browser.find_element_by_link_text('Linda')

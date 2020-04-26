@@ -36,27 +36,28 @@
                 <h5>Description :<span>
                         {{ note_obj.description }}</span></h5>
                 <br>
+                
 
                 {% if user.is_authenticated %}
                 {% if user.username != note_obj.author.user.username %}
                 <form action="" method="post">
                     {% csrf_token %}
-                    <button type="summit" class="btn" name="noteID" value="{{ note_obj.id }}"><i class="fa fa-heart"></i>
+                    <button type="submit" class="btn" name="save_note" value="{{ note_obj.id }}"><i class="fa fa-heart"></i>
                         Save Note</button>
                 </form>
                 {% else %}
                     {% if confirm == False %}
                     <form method="post">
                         {% csrf_token %}
-                        <button type="summit" class="warning" style="background-color: red;" " name="delete_note" >Delete note</button>
+                        <button type="submit" class="warning" style="background-color: red;" " name="delete_note" >Delete note</button>
 
                     </form>
                     {% else %}
                     <form method="post">
                         {% csrf_token %}
                         <p style="font-size: 20 ;" >Are you sure to delete ?</p>
-                        <button type="summit" class="warning" " name="confirm_delete_note" >Yes</button>
-                        <button type="summit" class="warning" " name="not_confirm_delete_note" >No</button>
+                        <button type="submit" class="warning" " name="confirm_delete_note" >Yes</button>
+                        <input type="submit" class="warning" " name="not_confirm_delete_note" value="No">
 
                     </form>
                     {% endif %}
