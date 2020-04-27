@@ -110,7 +110,7 @@ def about(request):
 def help(request):
     return render(request, 'help.html')
 
-def lecture(request, lecture_id):
+def lecture(request, lecture_title, lecture_id):
     #it use to save note
     #<QueryDict:{}>
     #<QueryDict:{"{% csrf_token %}":fuenfekfhe ,"save_note":[]}>

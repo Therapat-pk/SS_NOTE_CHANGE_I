@@ -29,7 +29,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('help/', views.help, name='help'),
     path('upload/',views.upload,name='upload'),
-    path('<int:lecture_id>/', views.lecture, name='lecture'),
+    path('lecture/<str:lecture_title>/<int:lecture_id>/', views.lecture, name='lecture'),
     path('profile/<str:username>/', views.profile, name='profile'),
 
 
