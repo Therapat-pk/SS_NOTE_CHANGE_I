@@ -8,12 +8,12 @@
             </div>
 
             <div class="card-body">
-                <a class="text-dark btn" href="/lecture/{{note.note.title}}/{{ note.note.id }}">
+                <a class="text-dark btn" href="{% url 'S&S:lecture' note.note.title note.note.id %}">
                     <h4 class="card-title" id="latest_note{{ forloop.counter }}">{{ note.note.title }}</h4>
                 </a>
 
                 <p style="transform: rotate(0);">
-                    <a class="subinfo__author stretched-link" href="/profile/{{ note.note.author }}">
+                    <a class="subinfo__author stretched-link" href="{% url 'S&S:profile' note.note.author %}">
                         {% if note.note.author.profile_picture %}
                         <img class="subinfo__author__img" alt="image not found"
                             style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
