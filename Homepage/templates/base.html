@@ -44,15 +44,15 @@
           <a class="nav-link" href="{% url 'S&S:profile' user.username %}" id="navbar_username">{{ user.username }}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/accounts/logout" id="navbar_logout">Logout</a>
+          <a class="nav-link" href="{% url 'S&S:logout' %}" id="navbar_logout">Logout</a>
         </li>
 
         {% else %}
         <li class="nav-item">
-          <a class="nav-link" href="/accounts/login" id="navbar_upload">Upload</a>
+          <a class="nav-link" href="{% url 'S&S:login' %}" id="navbar_upload">Upload</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/accounts/login" id="navbar_login">Login</a>
+          <a class="nav-link" href="{% url 'S&S:login' %}" id="navbar_login">Login</a>
         </li>
         {% endif %}
 

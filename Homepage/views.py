@@ -9,6 +9,7 @@ from django.db.models import Count
 from django.contrib import messages
 from .forms import Profileform,LectureForms
 from .models import Lecture,Profile,Lecture_image
+from django.urls import reverse
 
 class NoteWithThumbnail:#It is use college example note (Show about title,example picture,author)
 
@@ -33,7 +34,7 @@ def signup(request):
             user = authenticate(username=username, password=raw_password)
             # use user(User object that returned) to log in
             login(request, user) 
-            return redirect('login')
+            return redirect(reverse("S&S:login")) #redirect('/')
     else:
         newuserforms = UserCreationForm()
     return render(request, 'signup.html', {'newuserforms': newuserforms})
@@ -77,7 +78,7 @@ def upload(request):
                     photo = Lecture_image.objects.create(lecturekey=lecture_forms, image=i)
                     photo.save()
                 # redirect to homepage
-                return redirect('/')
+                return redirect(reverse("S&S:home"))
             else:
                 Error="Please choose your file"
         else:
@@ -97,7 +98,7 @@ def change_password(request):
             #session can temporarily store information like cookie
             update_session_auth_hash(request, pass_change_forms.user)
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('change_password')
+            return redirect(reverse("S&S:change_password"))
         else:
             messages.error(request, 'Please correct the error below.')
     else:
@@ -121,7 +122,7 @@ def lecture(request, lecture_title, lecture_id):
         if profile_obj not in note_obj.user_saved.all():
             note_obj.user_saved.add(profile_obj)
             note_obj.save()
-        return HttpResponseRedirect("/" + request.POST.get('save_note'))
+        return HttpResponseRedirect(reverse('S&S:lecture',args=[note_obj.title,note_obj.id]))
     else:
         note_obj = Lecture.objects.get(id=lecture_id)
         image_obj_list = note_obj.Lecture_image.all()
@@ -139,7 +140,7 @@ def lecture(request, lecture_title, lecture_id):
             image_obj_list.delete()
             #Delete this one Lecture object 
             note_obj.delete()
-            return redirect('/')
+            return redirect(reverse("S&S:home"))
         return render(request, 'notedetail.html', {'note_obj': note_obj, "image_obj_list": image_obj_list ,"confirm":confirm })
 
 def profile(request, username):
@@ -151,7 +152,7 @@ def profile(request, username):
         if profile_forms.is_valid():
             profile_obj.profile_picture = profile_forms.cleaned_data.get('profile_picture')
             profile_obj.save()
-            return HttpResponseRedirect("/profile/" + username)
+            return HttpResponseRedirect((reverse("S&S:profile",args=[username])))
     else: 
         profile_forms=Profileform()
         my_note = []

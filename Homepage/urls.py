@@ -2,11 +2,11 @@ from django.urls import path,include
 from . import views
 
 #<a href="/lecture/{{note.note.title}}/{{ note.note.id }}"> hard to change
-#<a href="{%url 'S&S:lecture' lecture_title,lecture_id %}"
+#<a href="{%url 'S&S:lecture' note.note.title note.note.id %}"
 app_name='S&S'
 urlpatterns = [
-    #path('accounts/', include('django.contrib.auth.urls')), 
     path('', views.home, name='home'), # new
+    path('accounts/', include('django.contrib.auth.urls')), 
     path('signup/', views.signup, name='signup'),
     path('change-password/', views.change_password, name='change_password'),
     path('about/', views.about, name='about'),
