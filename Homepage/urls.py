@@ -3,6 +3,9 @@ from . import views
 
 #<a href="/lecture/{{note.note.title}}/{{ note.note.id }}"> hard to change
 #<a href="{%url 'S&S:lecture' note.note.title note.note.id %}"
+
+#GET /input=652&input=ssss
+#POST / 
 app_name='S&S'
 urlpatterns = [
     path('', views.home, name='home'), # new
