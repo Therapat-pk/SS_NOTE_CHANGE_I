@@ -1,0 +1,33 @@
+<div class="row">
+    {% for detail in ratedetail %}
+    <div class=".col-xs-{{cardSize|default:'1'}}">
+        <div class="card mb-4 box-shadow">
+
+            <div class="card-body">
+               
+                <h6 class="card-title" id="latest_note{{ forloop.counter }}">{{ detail.comment }}</h4>
+               
+
+                <p style="transform: rotate(0);">
+                    <a class="subinfo__author stretched-link" href="{% url 'S&S:profile' detail.user_rate %}">
+                        {% if detail.user_rate.profile_picture %}
+                        <img class="subinfo__author__img" alt="image not found"
+                            style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
+                            src="{{ detail.user_rate.profile_picture.url }}">
+                        {% else %}
+                        <img class="subinfo__author__img" alt="image not found"
+                            style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"
+                            src="https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png">
+                        {% endif %}
+                        <span class="subinfo__author__name">{{ detail.user_rate }}</span>
+                    </a>
+                </p>
+
+                <p class="card-text">{{ detail.rate }}Point</p>
+
+
+            </div>
+        </div>
+    </div>
+    {% endfor%}
+</div>

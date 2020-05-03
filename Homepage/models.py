@@ -66,5 +66,17 @@ class Lecture_image(models.Model):#It is collect a content picture on note
     #It show name of image file when something call class Lecture_image
     def __str__(self):
         return self.image.name
+    
+class Rate(models.Model):
+    user_rate=models.ForeignKey(Profile,
+        on_delete=models.CASCADE, blank=True,
+        null=True
+        )
+    lecture_rate=models.ForeignKey(Lecture,
+        on_delete=models.CASCADE, blank=True,
+        null=True
+        )
+    comment=models.CharField(max_length=1000)
+    rate=models.IntegerField()
 
     

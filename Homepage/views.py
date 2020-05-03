@@ -8,7 +8,7 @@ from django.http import Http404
 from django.db.models import Count
 from django.contrib import messages
 from .forms import Profileform,LectureForms
-from .models import Lecture,Profile,Lecture_image
+from .models import Lecture,Profile,Lecture_image,Rate
 from django.urls import reverse
 
 class NoteWithThumbnail:#It is use college example note (Show about title,example picture,author)
@@ -16,6 +16,13 @@ class NoteWithThumbnail:#It is use college example note (Show about title,exampl
     def __init__(self, note, thumbnail):
         self.note = note
         self.thumbnail = thumbnail
+
+class Review:
+    def __init__(self,point,comment):
+        self.point=point
+        self.comment=comment
+    
+
 
 
 #views area
@@ -111,6 +118,8 @@ def about(request):
 def help(request):
     return render(request, 'help.html')
 
+
+
 def lecture(request, lecture_title, lecture_id):
     #it use to save note
     #<QueryDict:{}>
@@ -124,11 +133,15 @@ def lecture(request, lecture_title, lecture_id):
             note_obj.save()
         return HttpResponseRedirect(reverse('S&S:lecture',args=[note_obj.title,note_obj.id]))
     else:
+        profile=Profile.objects.get(user=request.user)
         note_obj = Lecture.objects.get(id=lecture_id)
         image_obj_list = note_obj.Lecture_image.all()
         #confirm is a varible,It use to consider that now is in delete_note form or confirm_delete_note form
         #confirm = False meaning now is in delete_note form
         confirm = False
+        comment = False
+        rate_list=[]
+        total_point=0
         
         #"delete_note" is a name in botton
         if ( request.method == 'POST' and "delete_note" in request.POST):
@@ -141,7 +154,24 @@ def lecture(request, lecture_title, lecture_id):
             #Delete this one Lecture object 
             note_obj.delete()
             return redirect(reverse("S&S:home"))
-        return render(request, 'notedetail.html', {'note_obj': note_obj, "image_obj_list": image_obj_list ,"confirm":confirm })
+        elif (request.method == 'POST' and "review" in request.POST):
+            comment=True
+        elif (request.method == 'POST' and "submit_review" in request.POST):
+            point=request.POST.get("point")
+            comment=request.POST.get("text_comment")
+            #user=request.POST.get("submit_review")
+            
+            rate=Rate.objects.create(rate=point,comment=comment,lecture_rate=note_obj,user_rate=profile)
+            comment=True
+        for i in Rate.objects.all():
+            if i.lecture_rate == note_obj:
+                total_point += i.rate
+                rate_list.append(i)
+        
+        
+        return render(request, 'notedetail.html', {'note_obj': note_obj, "image_obj_list": image_obj_list, "confirm":confirm,
+            'comment':comment, "ratedetail":rate_list ,"ratedetail_length":len(rate_list),
+            "profile_request":profile, "total_point":total_point})
 
 def profile(request, username):
     user_obj = User.objects.get(username=username)

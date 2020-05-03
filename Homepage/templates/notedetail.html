@@ -35,16 +35,87 @@
 
                 <h5>Description :<span>
                         {{ note_obj.description }}</span></h5>
-                <br>
                 
+                <h5>Total point :{{total_point}}</h5>
+                <br>
 
                 {% if user.is_authenticated %}
                 {% if user.username != note_obj.author.user.username %}
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn" name="save_note" value="{{ note_obj.id }}"><i class="fa fa-heart"></i>
-                        Save Note</button>
-                </form>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn" name="save_note" value="{{ note_obj.id }}"><i class="fa fa-heart"></i>
+                                Save Note</button>
+                        </form>
+                        {% if ratedetail_length != 0 %}
+                            {% for detail in ratedetail %}
+                                {% if detail.user_rate == profile_request %}
+                                    <div>
+                                        {% include "commentCardTem.html" with ratedetail=ratedetail only %}
+                                    </div>
+                                {% else %} 
+                                    {% if comment == False %} 
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn" name="review" value="{{ note_obj.id }}"><i class="fa fa-heart"></i>
+                                                Review</button> 
+                                        </form>
+                                    {% else %}          
+                                        <div>          
+                                            <form method="post">
+                                                {% csrf_token %}
+                                                <div>
+                                                    <input type="radio"  name="point" value="1"><label>1 point</label>
+                                                    <input type="radio"  name="point" value="2"><label>2 point</label>
+                                                    <input type="radio"  name="point" value="3"><label>3 point</label>
+                                                    <input type="radio"  name="point" value="4"><label>4 point</label>
+                                                    <input type="radio"  name="point" value="5"><label>5 point</label>
+                                                    
+
+                                                </div>
+                                                <input type="text" name="text_comment" height="50" ><br><br>
+                                                <button type="submit" class="btn" name="submit_review"><i class="fa fa-heart"></i>
+                                                    Submit</button>
+
+
+                                            </form>
+                                            <div>
+
+                                            {% include "commentCardTem.html" with ratedetail=ratedetail only %}
+
+                                            </div>
+                                        </div> 
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor%}
+                        {%else%}
+                            {% if comment == False %} 
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn" name="review" value="{{ note_obj.id }}"><i class="fa fa-heart"></i>
+                                        Review</button> 
+                                </form>
+                             {% else %}          
+                                <div>         
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div>
+                                            <input type="radio"  name="point" value="1"><label>1 point</label>
+                                            <input type="radio"  name="point" value="2"><label>2 point</label>
+                                            <input type="radio"  name="point" value="3"><label>3 point</label>
+                                            <input type="radio"  name="point" value="4"><label>4 point</label>
+                                            <input type="radio"  name="point" value="5"><label>5 point</label>
+                                            
+                                        </div>
+                                        <input type="text" name="text_comment" height="50" ><br><br>
+                                        <button type="submit" class="btn" name="submit_review"><i class="fa fa-heart"></i>
+                                            Submit</button>
+                                    </form>
+                                    <div>
+                                    {% include "commentCardTem.html" with ratedetail=ratedetail only %}
+                                    </div>
+                                </div> 
+                            {% endif %}
+                        {% endif %}                
                 {% else %}
                     {% if confirm == False %}
                     <form method="post">
@@ -52,6 +123,9 @@
                         <button type="submit" class="warning" style="background-color: red;" " name="delete_note" >Delete note</button>
 
                     </form>
+                    <div>
+                        {% include "commentCardTem.html" with ratedetail=ratedetail only %}
+                    </div>
                     {% else %}
                     <form method="post">
                         {% csrf_token %}
@@ -60,7 +134,11 @@
                         <input type="submit" class="warning" " name="not_confirm_delete_note" value="No">
 
                     </form>
+                    <div>
+                        {% include "commentCardTem.html" with ratedetail=ratedetail only %}
+                    </div>
                     {% endif %}
+                    
                 {% endif %}
                 {% else %}
                 <a href="{% url 'S&S:login' %}">please login to save notes</a>
@@ -157,6 +235,8 @@
         cursor: pointer;
         /* Mouse pointer on hover */
     }
+
+
 
     .warning{
         background-color: DodgerBlue;
