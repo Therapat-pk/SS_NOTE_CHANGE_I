@@ -133,7 +133,9 @@ def lecture(request, lecture_title, lecture_id):
             note_obj.save()
         return HttpResponseRedirect(reverse('S&S:lecture',args=[note_obj.title,note_obj.id]))
     else:
-        profile=Profile.objects.get(user=request.user)
+        profile=""
+        if request.user.is_authenticated:
+            profile=Profile.objects.get(user=request.user)
         note_obj = Lecture.objects.get(id=lecture_id)
         image_obj_list = note_obj.Lecture_image.all()
         #confirm is a varible,It use to consider that now is in delete_note form or confirm_delete_note form
@@ -165,8 +167,10 @@ def lecture(request, lecture_title, lecture_id):
             comment=True
         for i in Rate.objects.all():
             if i.lecture_rate == note_obj:
-                total_point += i.rate
                 rate_list.append(i)
+                if i.rate != None:
+                    total_point += i.rate
+                
         
         
         return render(request, 'notedetail.html', {'note_obj': note_obj, "image_obj_list": image_obj_list, "confirm":confirm,

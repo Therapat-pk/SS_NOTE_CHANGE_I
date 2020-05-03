@@ -76,7 +76,9 @@ class Rate(models.Model):
         on_delete=models.CASCADE, blank=True,
         null=True
         )
-    comment=models.CharField(max_length=1000)
-    rate=models.IntegerField()
+    comment=models.CharField(max_length=1000,blank=True,
+        null=True)
+    rate=models.IntegerField(blank=True,
+        null=True)
 
     

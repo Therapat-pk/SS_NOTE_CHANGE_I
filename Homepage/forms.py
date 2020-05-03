@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import *
+from .models import Profile,Lecture,Lecture_image
 
 # Create the form class.
 class Profileform(ModelForm):

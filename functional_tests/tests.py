@@ -268,6 +268,68 @@ class NewVisitorTest(LiveServerTestCase):
 
         #He couldn't find that note anymore.
         self.assertNotIn('Networking fundamental',self.browser.page_source)
+
+    def test_linda_review_a_note_and_steve_read_a_review(self):
+        ##It use to create note by Steve before we will start test
+        #self.test_Steve_uploading_a_note()
+        self.test_Linda_save_a_note()
+        self.browser.get(self.live_server_url)
+
+        
+
+        login_button = self.browser.find_element_by_id('navbar_login')
+        login_button.send_keys(Keys.ENTER)
+        username = self.browser.find_element_by_id('id_username')
+        username.send_keys('Linda')
+        password = self.browser.find_element_by_id('id_password')  
+        password.send_keys('Linda25422')    
+        password.send_keys(Keys.ENTER)
+
+        profile_enter=self.browser.find_element_by_id('navbar_username')
+        profile_enter.send_keys(Keys.ENTER)
+
+        click_note=self.browser.find_element_by_link_text('Networking fundamental')
+        click_note.send_keys(Keys.ENTER)
+
+        click_a_review=self.browser.find_element_by_name("review")
+        click_a_review.send_keys(Keys.ENTER)
+
+        radio=self.browser.find_element_by_xpath(".//input[@type='radio' and @value='4']").click()
+        time.sleep(2)
+        comment=self.browser.find_element_by_name("text_comment")
+        comment.send_keys('It a good note')
+        self.browser.find_element_by_name("submit_review").send_keys(Keys.ENTER)
+        time.sleep(1)
+        self.assertIn("It a good note",self.browser.page_source)
+        self.browser.find_element_by_id('navbar_logout').send_keys(Keys.ENTER)
+
+        login_button = self.browser.find_element_by_id('navbar_login')
+        login_button.send_keys(Keys.ENTER)
+
+        username = self.browser.find_element_by_id('id_username')
+        username.send_keys('steve')
+        password = self.browser.find_element_by_id('id_password')  
+        password.send_keys('123456')    
+        password.send_keys(Keys.ENTER)
+        #time.sleep(1)
+
+        #He going to his profile
+        #self.assertIn('navbar_username',self.browser.page_source)
+        profile_enter=self.browser.find_element_by_id('navbar_username')
+        profile_enter.send_keys(Keys.ENTER)
+        #time.sleep(1)
+ 
+        #He continue to a detail note
+        click_note=self.browser.find_element_by_link_text('Networking fundamental')
+        click_note.send_keys(Keys.ENTER)
+        time.sleep(2)
+
+        self.assertIn("It a good note",self.browser.page_source)
+
+
+
+
+
         
         
         
