@@ -23,5 +23,5 @@ urlpatterns = [
     path('',include('Homepage.urls')),
     path('admin/', admin.site.urls),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+handler500='Homepage.views.handler500'
 

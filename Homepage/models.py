@@ -81,4 +81,8 @@ class Rate(models.Model):
     rate=models.IntegerField(blank=True,
         null=True)
 
+class ErrorReport(models.Model):
+    error_views = models.CharField(max_length=100, null=True)
+    error_detail = models.CharField(max_length=1000, null=True)
+
     

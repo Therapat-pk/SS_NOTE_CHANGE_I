@@ -11,8 +11,9 @@ class NewVisitorTest(LiveServerTestCase):
     MAX_WAIT = 15  
 
     def setUp(self):  
-        self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(10)
+        self.browser = webdriver.Firefox(executable_path='/home/therapat/SS_NOTE_CHANGE_I/geckodriver')
+        self.browser.implicitly_wait(15)
+
         self.user = User.objects.create_user(username='steve', email='steve@email.com', password='123456')
         Profile.objects.create(user = self.user)
 
@@ -125,8 +126,7 @@ class NewVisitorTest(LiveServerTestCase):
         # She prefer reading a note more than an entire book
         # So, She go to Save&ShareLecture site which is a online note sharing platform
         # She entering the site url in her browser
-        steve_logout=self.browser.find_elements_by_link_text('Logout')
-        steve_logout[0].send_keys(Keys.ENTER)
+        
         self.browser.get(self.live_server_url)
         # She notice the homepage have popup
         self.wait_for_page_to_render_text_in_id('','HomepageMainArea')
@@ -188,6 +188,7 @@ class NewVisitorTest(LiveServerTestCase):
         # She click save note button
         Click_savenote=self.browser.find_element_by_name('save_note')
         Click_savenote.send_keys(Keys.ENTER)
+        time.sleep(1)
         # She navigate to profile page
 
         Click_Profile=self.browser.find_element_by_link_text('Linda')
