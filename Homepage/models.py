@@ -61,7 +61,7 @@ class Lecture_image(models.Model):#It is collect a content picture on note
         null=True
         )
 
-    image = models.ImageField(upload_to='lecture_image', blank=True)
+    image = models.ImageField(upload_to='lecture_image', )
 
     #It show name of image file when something call class Lecture_image
     def __str__(self):

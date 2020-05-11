@@ -21,7 +21,8 @@ class NoteWithThumbnail:#It is use college example note (Show about title,exampl
 
 #views area
 def handler500(request):
-    return render(request, 'error_500.html')
+    error_report=ErrorReport.objects.order_by('-id')[0]
+    return render(request, 'error_500.html',{'error_views':error_report.error_views})
 
 def signup(request):
     if request.method == 'POST':
@@ -40,7 +41,7 @@ def signup(request):
                 login(request, user) 
                 return redirect(reverse("S&S:login")) #redirect('/')
             except:
-                ErrorReport.objects.create(error_views="signup", error_detail="user form")
+                ErrorReport.objects.create(error_views="sign up", error_detail="user form")
     else:
         newuserforms = UserCreationForm()
     return render(request, 'signup.html', {'newuserforms': newuserforms})
@@ -120,9 +121,9 @@ def change_password(request):
                     messages.success(request, 'Your password was successfully updated!')
                     return redirect(reverse("S&S:change_password"))
                 except:
-                    ErrorReport.objects.create(error_views="change_password", error_detail="update_session_auth_hash")
+                    ErrorReport.objects.create(error_views="change password", error_detail="update_session_auth_hash")
             except:
-                ErrorReport.objects.create(error_views="change_password", error_detail="pass_change_forms")
+                ErrorReport.objects.create(error_views="change password", error_detail="pass_change_forms")
         else:
             messages.error(request, 'Please correct the error below.')
     else:
