@@ -22,7 +22,8 @@ class NoteWithThumbnail:#It is use college example note (Show about title,exampl
 #views area
 def handler500(request):
     error_report=ErrorReport.objects.order_by('-id')[0]
-    return render(request, 'error_500.html',{'error_views':error_report.error_views})
+    return render(request, 'error_500.html',{'error_massage':error_report.error_massage_to_user, 
+        'error_views':error_report.error_views})
 
 def signup(request):
     if request.method == 'POST':
@@ -41,7 +42,8 @@ def signup(request):
                 login(request, user) 
                 return redirect(reverse("S&S:login")) #redirect('/')
             except:
-                ErrorReport.objects.create(error_views="sign up", error_detail="user form")
+                ErrorReport.objects.create(error_views="sign up", error_detail="user form",
+                    error_massage_to_user="Username or Password isn't valid")
     else:
         newuserforms = UserCreationForm()
     return render(request, 'signup.html', {'newuserforms': newuserforms})
@@ -60,7 +62,8 @@ def home(request):
                     noteWithThumbnail.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
             return render(request, 'searchresult.html', {'noteWithThumbnail':noteWithThumbnail})
         except:
-            ErrorReport.objects.create(error_views="home", error_detail="search")
+            ErrorReport.objects.create(error_views="home", error_detail="search", 
+                error_massage_to_user="Try enter your word to search again")
     else:
         try:
             #It use to Show 8 lastest note 
@@ -69,7 +72,8 @@ def home(request):
             for note in Lecture.objects.all().order_by('-id')[:8][::-1]:
                 latest_note.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
         except:
-            ErrorReport.objects.create(error_views="home", error_detail="lastest_note")
+            ErrorReport.objects.create(error_views="home", error_detail="lastest_note", 
+                error_massage_to_user="Problem about note")
         try:
             #It use Show 8 most saved note
             #annotate(count=Count('userSaved')) It use to count each Lecture object
@@ -77,14 +81,15 @@ def home(request):
                 popular_note.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
             return render(request, 'home.html', {'latest_note': latest_note, 'popular_note': popular_note})
         except:
-            ErrorReport.objects.create(error_views="home", error_detail="popular_note")
+            ErrorReport.objects.create(error_views="home", error_detail="popular_note", 
+                error_massage_to_user="Problem about note")
 
 def upload(request):
     try:
         profile_obj = Profile.objects.get(user=request.user)
         if request.method == 'POST':
             lecture_forms = LectureForms(request.POST)
-            if lecture_forms.is_valid():
+            if lecture_forms.is_valid() and request.FILES.get('image'):
                 try:
                     lecture_forms = lecture_forms.save(commit=False)
                     lecture_forms.author = profile_obj
@@ -97,16 +102,23 @@ def upload(request):
                         # redirect to homepage
                         return redirect(reverse("S&S:home"))
                     except:
-                        ErrorReport.objects.create(error_views="upload", error_detail="object file image")
+                        ErrorReport.objects.create(error_views="upload", error_detail="object file image", 
+                            error_massage_to_user="Files isn't valid")
 
                 except:
-                    ErrorReport.objects.create(error_views="upload", error_detail="lecture_forms")
+                    ErrorReport.objects.create(error_views="upload", 
+                        error_detail="Title or Description isn't valid")
+            else:
+                choose_files_message='Please choose files'
                     
         else:
             lecture_forms = LectureForms()
-        return render(request, 'upload.html', {'lecture_forms': lecture_forms})
+            choose_files_message=""
+        return render(request, 'upload.html', {'lecture_forms': lecture_forms, 
+            'choose_files_message':choose_files_message})
     except:
-        ErrorReport.objects.create(error_views="upload", error_detail="Profile object")
+        ErrorReport.objects.create(error_views="upload", error_detail="Profile object", 
+            error_massage_to_user="Problem about profile")
 
 def change_password(request):
     if request.method == 'POST':
@@ -121,9 +133,11 @@ def change_password(request):
                     messages.success(request, 'Your password was successfully updated!')
                     return redirect(reverse("S&S:change_password"))
                 except:
-                    ErrorReport.objects.create(error_views="change password", error_detail="update_session_auth_hash")
+                    ErrorReport.objects.create(error_views="change password", error_detail="update_session_auth_hash", 
+                        error_massage_to_user="Proble about update password")
             except:
-                ErrorReport.objects.create(error_views="change password", error_detail="pass_change_forms")
+                ErrorReport.objects.create(error_views="change password", error_detail="pass_change_forms", 
+                    error_massage_to_user="Problem about old password or new password isn't valid")
         else:
             messages.error(request, 'Please correct the error below.')
     else:
@@ -146,7 +160,8 @@ def lecture(request, lecture_title, lecture_id):
         try:
             profile_obj = Profile.objects.get(user=request.user)
         except:
-            ErrorReport.objects.create(error_views="lecture", error_detail="profile objects")
+            ErrorReport.objects.create(error_views="lecture", error_detail="profile objects", 
+                error_massage_to_user="Problem about your profile")
         try:
             note_obj = Lecture.objects.get(id=int(request.POST.get('save_note')))
             #Check if user have saved it.
@@ -155,7 +170,8 @@ def lecture(request, lecture_title, lecture_id):
                 note_obj.save()
             return HttpResponseRedirect(reverse('S&S:lecture',args=[note_obj.title,note_obj.id]))
         except:
-            ErrorReport.objects.create(error_views="lecture", error_detail="note objects")
+            ErrorReport.objects.create(error_views="lecture", error_detail="note objects", 
+                error_massage_to_user="Problem about this note")
     else:
         profile=None
         if request.user.is_authenticated:
@@ -198,13 +214,21 @@ def lecture(request, lecture_title, lecture_id):
                                 if i.rate != None:
                                     total_point += i.rate
                     except:
-                        ErrorReport.objects.create(error_views="lecture", error_detail="for in rate (rate list, total point")
+                        ErrorReport.objects.create(error_views="lecture", 
+                            error_detail="for in rate (rate list, total point", 
+                            error_massage_to_user="Problem about review")
                 except:
-                    ErrorReport.objects.create(error_views="lecture", error_detail="review")
+                    ErrorReport.objects.create(error_views="lecture",
+                        error_detail="review",
+                        error_massage_to_user="Problem about Point or comment isn't valid")
             except:
-                ErrorReport.objects.create(error_views="lecture", error_detail="delete note")
+                ErrorReport.objects.create(error_views="lecture", 
+                    error_detail="delete note",
+                    error_massage_to_user="Problem about Delete note")
         except:
-            ErrorReport.objects.create(error_views="lecture", error_detail="note_obj or image_obj_list")
+            ErrorReport.objects.create(error_views="lecture", 
+                error_detail="note_obj or image_obj_list",
+                error_massage_to_user="Problem about this note isn't valid")
                 
         
         
@@ -225,7 +249,8 @@ def profile(request, username):
                     profile_obj.save()
                     return HttpResponseRedirect((reverse("S&S:profile",args=[username])))
                 except:
-                    ErrorReport.objects.create(error_views="profile", error_detail="profile_pic form")
+                    ErrorReport.objects.create(error_views="profile", error_detail="profile_pic form"
+                        ,error_massage_to_user="profile pic isn't valid")
         else: 
             profile_forms=Profileform()
             my_note = []
@@ -237,14 +262,20 @@ def profile(request, username):
                     my_note.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
                     saves += note.user_saved.count()#Find the sum of all saved users
             except:
-                ErrorReport.objects.create(error_views="profile", error_detail="mynote")
+                ErrorReport.objects.create(error_views="profile", error_detail="mynote"
+                    ,error_massage_to_user="Problem about your note")
             try:    
                 for note in Lecture.objects.all():
                     #It use to collect a note that saved by user
                     if profile_obj in note.user_saved.all():
                         saved_note.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
             except:
-                ErrorReport.objects.create(error_views="profile", error_detail="saved note")
-        return render(request, 'profile.html', {'profile_forms': profile_forms, 'profile': profile_obj, 'my_note': my_note, 'saved_note': saved_note, 'saves': saves})
+                ErrorReport.objects.create(error_views="profile", error_detail="saved note"
+                    ,error_massage_to_user="Problem about your saved note")
+        return render(request, 'profile.html', {'profile_forms': profile_forms, 
+            'profile': profile_obj,
+            'my_note': my_note, 'saved_note': saved_note,
+            'saves': saves})
     except:
-        ErrorReport.objects.create(error_views="profile", error_detail="user_object")
+        ErrorReport.objects.create(error_views="profile", error_detail="user_object"
+            ,error_massage_to_user="Problem about your user")

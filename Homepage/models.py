@@ -84,5 +84,6 @@ class Rate(models.Model):
 class ErrorReport(models.Model):
     error_views = models.CharField(max_length=100, null=True)
     error_detail = models.CharField(max_length=1000, null=True)
+    error_massage_to_user= models.CharField(max_length=1000, null=True)
 
     
