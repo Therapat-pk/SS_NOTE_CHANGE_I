@@ -58,7 +58,7 @@ def home(request):
         keyword = request.GET.get('keyword_search').lower()
         try:
             for note in Lecture.objects.all():
-                if (keyword in note.title.lower() or keyword in note.description.lower()):
+                if (keyword in note.title.lower() or keyword in note.description.lower() or note.Lecture_image.all()):
                     noteWithThumbnail.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
             return render(request, 'searchresult.html', {'noteWithThumbnail':noteWithThumbnail})
         except:
@@ -70,7 +70,8 @@ def home(request):
             #order_by(-id) is return object ordered by id descending 
             #but really shouldn't [::-1]
             for note in Lecture.objects.all().order_by('-id')[:8][::-1]:
-                latest_note.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
+                if note.Lecture_image.all():
+                    latest_note.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
         except:
             ErrorReport.objects.create(error_views="home", error_detail="lastest_note", 
                 error_massage_to_user="Problem about note")
@@ -78,7 +79,8 @@ def home(request):
             #It use Show 8 most saved note
             #annotate(count=Count('userSaved')) It use to count each Lecture object
             for note in Lecture.objects.annotate(count=Count('user_saved')).order_by('count')[:8][::-1]:
-                popular_note.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
+                if note.Lecture_image.all():
+                    popular_note.append(NoteWithThumbnail(note, note.Lecture_image.all()[0]))
             return render(request, 'home.html', {'latest_note': latest_note, 'popular_note': popular_note})
         except:
             ErrorReport.objects.create(error_views="home", error_detail="popular_note", 
@@ -121,28 +123,29 @@ def upload(request):
             error_massage_to_user="Problem about profile")
 
 def change_password(request):
-    if request.method == 'POST':
-        pass_change_forms = PasswordChangeForm(data=request.POST, user=request.user)
-        if pass_change_forms.is_valid():
-            try:
-                pass_change_forms.save()
-                #It user to update user object which the new session will be derived and updates the session appropriately
-                #session can temporarily store information like cookie
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            pass_change_forms = PasswordChangeForm(data=request.POST, user=request.user)
+            if pass_change_forms.is_valid():
                 try:
-                    update_session_auth_hash(request, pass_change_forms.user)
-                    messages.success(request, 'Your password was successfully updated!')
-                    return redirect(reverse("S&S:change_password"))
+                    pass_change_forms.save()
+                    #It user to update user object which the new session will be derived and updates the session appropriately
+                    #session can temporarily store information like cookie
+                    try:
+                        update_session_auth_hash(request, pass_change_forms.user)
+                        messages.success(request, 'Your password was successfully updated!')
+                        return redirect(reverse("S&S:change_password"))
+                    except:
+                        ErrorReport.objects.create(error_views="change password", error_detail="update_session_auth_hash", 
+                            error_massage_to_user="Proble about update password")
                 except:
-                    ErrorReport.objects.create(error_views="change password", error_detail="update_session_auth_hash", 
-                        error_massage_to_user="Proble about update password")
-            except:
-                ErrorReport.objects.create(error_views="change password", error_detail="pass_change_forms", 
-                    error_massage_to_user="Problem about old password or new password isn't valid")
+                    ErrorReport.objects.create(error_views="change password", error_detail="pass_change_forms", 
+                        error_massage_to_user="Problem about old password or new password isn't valid")
         else:
-            messages.error(request, 'Please correct the error below.')
+            pass_change_forms = PasswordChangeForm(user=request.user) 
+        return render(request, 'change_password.html', {'pass_change_forms': pass_change_forms})
     else:
-        pass_change_forms = PasswordChangeForm(user=request.user) 
-    return render(request, 'change_password.html', {'pass_change_forms': pass_change_forms})
+        return HttpResponse('555')
 
 def about(request):
     return render(request, 'about.html')
@@ -178,6 +181,10 @@ def lecture(request, lecture_title, lecture_id):
             profile=Profile.objects.get(user=request.user)
         try:
             note_obj = Lecture.objects.get(id=lecture_id)
+            #Check title match url
+            if (note_obj.title!=lecture_title):
+                error_massage = "Please check url or lecture will be delete"
+                return render(request,"page_not_found.html",{"error_massage":error_massage})
             image_obj_list = note_obj.Lecture_image.all()
             #confirm is a varible,It use to consider that now is in delete_note form or confirm_delete_note form
             #confirm = False meaning now is in delete_note form
@@ -229,6 +236,8 @@ def lecture(request, lecture_title, lecture_id):
             ErrorReport.objects.create(error_views="lecture", 
                 error_detail="note_obj or image_obj_list",
                 error_massage_to_user="Problem about this note isn't valid")
+            error_massage = "Please check url or lecture will be delete"
+            return render(request,"page_not_found.html",{"error_massage":error_massage})
                 
         
         
@@ -279,3 +288,5 @@ def profile(request, username):
     except:
         ErrorReport.objects.create(error_views="profile", error_detail="user_object"
             ,error_massage_to_user="Problem about your user")
+        error_massage = "Please check url or lecture will be delete"
+        return render(request,"page_not_found.html",{"error_massage":error_massage})

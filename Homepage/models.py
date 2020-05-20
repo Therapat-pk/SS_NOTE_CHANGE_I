@@ -22,7 +22,7 @@ class Profile(models.Model): #It use to identify person (who is post or save thi
         return self.user.username
 
 class Lecture(models.Model): #It is collect a content of note
-    title = models.CharField(max_length=200, null=True)
+    title = models.CharField(max_length=200, null=True ,blank=True)
 
     subject = models.CharField(max_length=200, null=True)
 
