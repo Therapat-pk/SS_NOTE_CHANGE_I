@@ -86,6 +86,7 @@ def home(request):
             ErrorReport.objects.create(error_views="home", error_detail="popular_note", 
                 error_massage_to_user="Problem about note")
 
+
 def upload(request):
     try:
         profile_obj = Profile.objects.get(user=request.user)
@@ -145,7 +146,7 @@ def change_password(request):
             pass_change_forms = PasswordChangeForm(user=request.user) 
         return render(request, 'change_password.html', {'pass_change_forms': pass_change_forms})
     else:
-        return HttpResponse('555')
+        return redirect(reverse("S&S:login"))
 
 def about(request):
     return render(request, 'about.html')
@@ -288,5 +289,5 @@ def profile(request, username):
     except:
         ErrorReport.objects.create(error_views="profile", error_detail="user_object"
             ,error_massage_to_user="Problem about your user")
-        error_massage = "Please check url or lecture will be delete"
+        error_massage = "Please check username of account in url or account will be delete"
         return render(request,"page_not_found.html",{"error_massage":error_massage})
